@@ -1,0 +1,356 @@
+<html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>the room</title>
+    <style>
+        html,
+        body,
+        svg {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        .home {
+            position: absolute;
+            top: 50%;
+            right: 50%;
+            width: 35vw;
+            height: 35vh;
+            border: 1.5px solid #242e2c;
+            transform: translate(50%, -50%);
+            z-index: 10;
+            cursor: hand;
+        }
+
+        .home-bread {
+            opacity: 0.25;
+            z-index: 9;
+            color: #242e2c;
+            background-color: none;
+        }
+
+        .disable-hover:hover:after {
+            display: none;
+        }
+
+        .home:hover:not(.disable-hover):after {
+            content: "在纽约租一套空房间，里面什么都没有，只有回音打在白墙上。我用生活的痕迹填满了它。于是视线之内，只有寂寞的墙啊它既不属于我，也不属于外面。";
+            position: absolute;
+            text-align: center;
+            color: #242e2c;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            z-index: 12;
+            pointer-events: none;
+        }
+
+        .hiddenHome {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: translate(50%, -50%);
+            z-index: 9;
+            opacity: 0.2;
+            scale: 0.2;
+            display: none;
+        }
+
+        #leftLines {
+            display: none;
+        }
+
+        #leftText {
+            position: absolute;
+            top: 50%;
+            left: 16%;
+            z-index: 11;
+            opacity: 0;
+        }
+
+        .dream1 {
+            position: absolute;
+            top: 23%;
+            left: 30px;
+            width: 28%;
+            height: 60%;
+            z-index: 13;
+            font-size: 16px;
+            opacity: 0;
+            color: #242e2c;
+            cursor: default;
+        }
+
+        .dream1:hover:after {
+            cursor: default;
+        }
+
+        .pasta {
+            position: absolute;
+            top: 23%;
+            right: 10%;
+            width: 180px;
+            height: 320px;
+            border: 1.5px solid #242e2c;
+            z-index: 13;
+            font-size: 12px;
+            color: #242e2c;
+            display: none;
+            cursor: hand;
+        }
+
+        .fly {
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            z-index: 100;
+            display: block;
+            opacity: 0.5;
+        }
+        .flyStory{
+            position:absolute;
+            text-align: center;
+            color:#242e2c;
+            opacity:0.7;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the element */
+
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="home" class="home" onclick="fillHome()"></div>
+    <div id="hiddenHome" class="hiddenHome"> </div>
+    <svg id="leftLines" height="100%" width="100%">
+        <line x1="0%" y1="0%" x2="32.5%" y2="32.5%" stroke="#242e2c" stroke-width="1.5px" />
+        <line x1="0%" y1="100%" x2="32.5%" y2="67.5%" stroke="#242e2c" stroke-width="1.5px" />
+    </svg>
+    <div id="leftText"> 在这里，我养成了记录梦境的习惯 </div>
+    <div id="dream1" class="dream1" onclick="dream1()">
+        <br>我想起来了，女孩正准备出席婚礼<br>不知为何我在新娘家做下人<br>这里的仪式是新娘正式出场前<br>会派几个假新娘走长毯<br>观众一样得欢呼<br>气氛最高涨的时候<br>真正新娘才能去拉新郎的手<br>
+        <br>劳动契约里说好其中一次替身是我<br>长毯上观众的起哄让我萌生起羞耻感<br>后台 带着这份羞耻<br>我和新娘一起挑选下一个出场的替身<br>她随手指了桌上的金龟子 说
+        就它吧<br>这是在胡闹什么？<br>但是金龟子很美<br>它的震翅声如鸣笛让观众忘了反应
+        <br>这时新娘和我说她不想结婚<br>拜托我带她跑<br><br>她已经不是新娘了<br>我们牵着手奔跑在满是恶人的集市里<br>
+    </div>
+    <div id="fly" class="fly">housefly</div>
+    <div id="pasta" class="pasta" onclick="pasta()"></div>
+    <div id="flyStory" class="flyStory" onclick="erase()">几天前在家里的时候<br>第一次看见这只墙上的苍蝇<br>不知他是如何闯入43层楼的高级公寓<br>我给他开了门他没有发现出口<br>他窜<br>窜过了yuki的尿垫没有停留<br>窜过了水池的脏碗没有停留<br>后来我忘记了要给他开门的事<br>只是偶尔在忙碌或是疲惫中看到<br>他远远地在那边窜过<br>而后我在外头跑了三天<br>终于再次在家里的沙发上坐下时<br>发现这只苍蝇比我待这公寓还要忠诚<br>在一个阳光明媚的下午<br>他久久停留在家里最洁白的一面墙上<br>
+    </div>
+    <script>
+        clicked = false;
+        dream1ready = false;
+        wait = 500;
+        shortwait = 100;
+        testwait = 100;
+        function fillHome() {
+            if (!clicked) {
+                var svgElement = document.getElementById("leftLines");
+                var homeElement = document.getElementById("home");
+                var dreamElement = document.getElementById("dream1");
+                homeElement.style.cursor = "default";
+                setTimeout(function () {
+                    homeElement.classList.add("disable-hover");
+                    svgElement.style.display = "block";
+                    setTimeout(function () {
+                        animateText("leftText", testwait, false);
+                    }, wait);
+                    setTimeout(function () {
+                        dream1ready = true;
+                        if (dream1ready) {
+                            dreamElement.style.cursor = "hand";
+                        }
+                    }, testwait * 15);
+                }, wait);
+
+                clicked = true;
+                spawnBread();
+
+            }
+        }
+
+        function spawnBread() {
+            var homeElement = document.getElementById("home");
+            var homeWidth = homeElement.offsetWidth;
+            var homeHeight = homeElement.offsetHeight;
+
+            var breadWidth = 34.5;
+            var breadHeight = 18;
+            var repetitionsX = Math.floor(homeWidth / breadWidth);
+            var repetitionsY = Math.floor(homeHeight / breadHeight);
+
+            var breadSpan = document.createElement("span");
+            breadSpan.className = "home-bread";
+
+            for (var i = 0; i < repetitionsY; i++) {
+                for (var j = 0; j < repetitionsX; j++) {
+                    breadSpan.appendChild(document.createTextNode("bread"));
+                }
+                breadSpan.appendChild(document.createElement("br"));
+            }
+            while (homeElement.firstChild) {
+                homeElement.removeChild(homeElement.firstChild);
+            }
+            homeElement.appendChild(breadSpan);
+        }
+
+        window.addEventListener("resize", function () {
+            if (clicked) {
+                spawnBread();
+            }
+        });
+
+        function animateText(elementId, time, loop) {
+            var textElement = document.getElementById(elementId);
+            textElement.style.opacity = "1";
+            var text = textElement.innerText;
+            textElement.innerText = ''; // Clear the text content
+            var i = 0;
+
+            function setText() {
+                textElement.innerText = text[i]; // Append the current letter
+                i++;
+                if (i === text.length + 1) {
+                    textElement.innerText = " "; // Append a space at the end
+                    if (loop) {
+                        i = 0; // Reset index for looping
+                        setTimeout(setText, time); // Restart the animation after 'time' milliseconds
+                    }
+                } else {
+                    setTimeout(setText, time); // Continue animation
+                }
+            }
+
+            setText(); // Start animation
+        }
+        function dream1() {
+            if (dream1ready) {
+                console.log("dream triggered");
+                var dreamElement = document.getElementById("dream1")
+                dreamElement.style.opacity = "1";
+                dreamElement.style.cursor = "default";
+            }
+        }
+
+        var originalText = ""; // Define a variable to store the original text
+
+        function replaceRandomCharacters(id) {
+            var textElement = document.getElementById(id);
+            if (!textElement) return;
+
+            var text = textElement.innerText;
+            var index = Math.floor(Math.random() * text.length);
+
+            if (index < text.length) {
+                if (originalText === "") {
+                    originalText = text; // Store the original text if it's not already stored
+                }
+                var replacedText = text.substring(0, index) + "housefly" + text.substring(index + 1);
+                textElement.innerText = replacedText;
+
+                setTimeout(function () {
+                    textElement.innerText = originalText; // Revert back to the original text
+                    originalText = ""; // Reset the original text
+                }, 500);
+            }
+        }
+
+
+        function animateDream1(elementId) {
+            setInterval(function () {
+                replaceRandomCharacters(elementId);
+            }, 1500);
+        }
+        bowlready = false;
+        function dream1() {
+            if (dream1ready == true) {
+                console.log("dream triggered");
+                var dreamElement = document.getElementById("dream1")
+                dreamElement.style.opacity = "1";
+                dreamElement.style.cursor = "default";
+                animateDream1("dream1")
+                bowlready = true;
+                var bowlElement = document.getElementById("pasta");
+                setTimeout(function () {
+                    bowlElement.style.display = "block";
+                }, testwait * 30)
+            }
+        }
+        var clicked = 0;
+
+        function pasta() {
+            var bowlElement = document.getElementById("pasta");
+            if (bowlready == true) {
+                bowlElement.textContent = "今天梦里 我一直有一盒pasta，因为各种原因 我总是吃不上我的pasta，连盖子都没机会打开，后来阿凡达星球入侵地球，想要抢我的pasta，我当然不给 我选择战斗 当然我打不过，最终为了和平，我交出了这盒pasta，失落的我来到上流居民区 遇到了还在上学的学妹，学妹说 还有十五分钟上课了，但她可以陪我去楼下美食广场买吃的，看到第一个摊位就是pasta，店家说如果要在十五分钟内拿到pasta，就只能用店里厨房自己做，我从来没机会打开过我的pasta盒盖，自然无从知晓那盒pasta的味道，于是我用我有限的厨艺，调了一盒我以为不错的pasta，最后吃了一口，那是小张的pasta，味同嚼蜡。"
+                fly(0.1, 0.32, 0.32, 2500, false);
+                setTimeout(function () {
+                    fly(0.75, 0.9, 0.5, 1000, true);
+                }, 3000);
+                bowlready = false;
+            }
+            replaceRandomCharacters("pasta");
+            clicked += 1;
+            console.log(clicked);
+            if (clicked >15 ) {
+                bowlElement.textContent = " ";
+                bowlElement.style.cursor = "default";
+            }
+        }
+
+        var movingText = document.querySelector('.fly');
+        var startTime = Date.now();
+        var startXPercentage = 0.1; // Starting position X percentage (10%)
+        var endXPercentage = 0.5; // Ending position X percentage (50%)
+        var startYPercentage = 0.5; // Starting position Y percentage (50%)
+        var endYPercentage = 1.0; // Ending position Y percentage (100%)
+        var amplitude = 20; // Amplitude of wobble motion
+        function fly(startXPercentage, endXPercentage, startYPercentage, duration, loop) {
+            var startX = window.innerWidth * startXPercentage;
+            var endX = window.innerWidth * endXPercentage;
+            var startY = window.innerHeight * startYPercentage;
+            var direction = 1; // Direction of movement: 1 for forward, -1 for reverse
+
+            function animate() {
+                var elapsedTime = Date.now() - startTime;
+                var progress = elapsedTime / duration;
+
+                if (progress > 1) {
+                    progress = 1;
+                    // direction *= -1; // Reverse the direction of movement
+                    startTime = Date.now(); // Reset the start time for smooth reversal
+
+                    // Swap startX and endX when direction changes
+                    var temp = startX;
+                    startX = endX;
+                    endX = temp;
+                }
+
+                var newPositionX = (endX - startX) * progress * direction + startX;
+                var newPositionY = (Math.sin(elapsedTime / 100) * 10) + startY;
+
+                movingText.style.left = newPositionX + 'px';
+                movingText.style.top = newPositionY + 'px';
+
+                if (progress < 1 || loop) {
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            var startTime = Date.now();
+            animate();
+        }
+
+        animateText("fly", shortwait, true);
+    </script>
+</body>
+
+</html>
