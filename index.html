@@ -115,26 +115,28 @@
             display: block;
             opacity: 0.5;
         }
-        .flyStory1{
-            position:absolute;
+
+        .flyStory1 {
+            position: absolute;
             text-align: center;
-            color:#242e2c;
-            opacity:0;
+            color: #242e2c;
+            opacity: 0;
             top: 5%;
             left: 50%;
-            transform: translate(-50%, 0); 
+            transform: translate(-50%, 0);
             z-index: 9;
         }
-        .flyStory2{
-            position:absolute;
+
+        .flyStory2 {
+            position: absolute;
             text-align: center;
-            color:#242e2c;
-            opacity:0;
+            color: #242e2c;
+            opacity: 0;
             bottom: 10%;
             left: 50%;
-            transform: translate(-50%, 0); 
+            transform: translate(-50%, 0);
             z-index: 9;
-            cursor:hand;
+            cursor: hand;
         }
     </style>
 </head>
@@ -153,19 +155,21 @@
         就它吧<br>这是在胡闹什么？<br>但是金龟子很美<br>它的震翅声如鸣笛让观众忘了反应
         <br>这时新娘和我说她不想结婚<br>拜托我带她跑<br><br>她已经不是新娘了<br>我们牵着手奔跑在满是恶人的集市里<br>
     </div>
-    <div id="fly" class="fly" >housefly</div>
+    <div id="fly" class="fly">housefly</div>
     <div id="pasta" class="pasta" onclick="pasta()"></div>
-    <div id="flyStory1" class="flyStory1">几天前在家里抽烟的时候<br>第一次看见这只墙上的苍蝇<br>不知他是如何闯入43层楼的高级公寓<br>我给他开了门他没有发现出口<br>他窜<br>窜过了yuki的尿垫没有停留<br>窜过了水池的脏碗没有停留<br>后来我忘记了要给他开门的事<br>只是偶尔在忙碌或是疲惫中看到<br>他远远地在那边窜过<br>
+    <div id="flyStory1" class="flyStory1">
+        几天前在家里抽烟的时候<br>第一次看见这只墙上的苍蝇<br>不知他是如何闯入43层楼的高级公寓<br>我给他开了门他没有发现出口<br>他窜<br>窜过了yuki的尿垫没有停留<br>窜过了水池的脏碗没有停留<br>后来我忘记了要给他开门的事<br>只是偶尔在忙碌或是疲惫中看到<br>他远远地在那边窜过<br>
     </div>
-    <div id="flyStory2" class="flyStory2" onclick="erase()">而后我在外头跑了三天<br>终于再次在家里的沙发上坐下时<br>发现这只苍蝇比我待这公寓还要忠诚<br>在一个阳光明媚的下午<br>他久久停留在家里最洁白的一面墙上<br>
+    <div id="flyStory2" class="flyStory2" onclick="erase()">
+        而后我在外头跑了三天<br>终于再次在家里的沙发上坐下时<br>发现这只苍蝇比我待这公寓还要忠诚<br>在一个阳光明媚的下午<br>他久久停留在家里最洁白的一面墙上<br>
     </div>
     <script>
         var clicked = false;
-        var eraseEnabled=false;
+        var eraseEnabled = false;
         dream1ready = false;
         wait = 500;
         shortwait = 100;
-        testwait = 100;
+        testwait = 500;
         function fillHome() {
             if (!clicked) {
                 var svgElement = document.getElementById("leftLines");
@@ -202,21 +206,23 @@
             var repetitionsX = Math.floor(homeWidth / breadWidth);
             var repetitionsY = Math.floor(homeHeight / breadHeight);
 
-            var breadSpan = document.createElement("span");
-            breadSpan.className = "home-bread";
-
             for (var i = 0; i < repetitionsY; i++) {
                 for (var j = 0; j < repetitionsX; j++) {
-                    breadSpan.appendChild(document.createTextNode("bread"));
+                    var breadElement = document.createElement("span");
+                    breadElement.className = "home-bread";
+                    breadElement.appendChild(document.createTextNode("bread"));
+                    homeElement.appendChild(breadElement);
+                    spawnedBread.push(breadElement); // Add the spawned bread element to the array
                 }
-                breadSpan.appendChild(document.createElement("br"));
+                homeElement.appendChild(document.createElement("br"));
             }
-            while (homeElement.firstChild) {
-                homeElement.removeChild(homeElement.firstChild);
-            }
-            homeElement.appendChild(breadSpan);
         }
-
+        function removeSpawnedBread() {
+            spawnedBread.forEach(function (element) {
+                element.parentNode.removeChild(element);
+            });
+            spawnedBread = []; // Clear the array
+        }
         window.addEventListener("resize", function () {
             if (clicked) {
                 spawnBread();
@@ -305,7 +311,7 @@
             var bowlElement = document.getElementById("pasta");
             var flyStory1 = document.getElementById("flyStory1");
             var flyStory2 = document.getElementById("flyStory2");
-           var hiddenElements = document.getElementById("hiddenHome");
+            var hiddenElements = document.getElementById("hiddenHome");
             if (bowlready == true) {
                 bowlElement.textContent = "今天梦里 我一直有一盒pasta，因为各种原因 我总是吃不上我的pasta，连盖子都没机会打开，后来阿凡达星球入侵地球，想要抢我的pasta，我当然不给 我选择战斗 当然我打不过，最终为了和平，我交出了这盒pasta，失落的我来到上流居民区 遇到了还在上学的学妹，学妹说 还有十五分钟上课了，但她可以陪我去楼下美食广场买吃的，看到第一个摊位就是pasta，店家说如果要在十五分钟内拿到pasta，就只能用店里厨房自己做，我从来没机会打开过我的pasta盒盖，自然无从知晓那盒pasta的味道，于是我用我有限的厨艺，调了一盒我以为不错的pasta，最后吃了一口，那是小张的pasta，味同嚼蜡。"
                 fly(0.1, 0.32, 0.32, 2500, false);
@@ -317,18 +323,18 @@
             // replaceRandomCharacters("pasta");
             pastaClicked += 1;
             console.log(pastaClicked);
-            if (pastaClicked >15 ) {
+            if (pastaClicked > 15) {
                 bowlElement.textContent = " ";
                 bowlElement.style.cursor = "default";
-                flyStory1.style.opacity = "1"; 
-                flyStory2.style.opacity = "1"; 
+                flyStory1.style.opacity = "1";
+                flyStory2.style.opacity = "1";
                 // breadElements.forEach(function(element) { element.classList.remove("home-bread"); });
                 // hiddenElements.style.display = "block";
                 flying = false
-                eraseEnabled= true;
+                eraseEnabled = true;
             }
         }
-        
+
         var movingText = document.querySelector('.fly');
         var startTime = Date.now();
         var startXPercentage = 0.1; // Starting position X percentage (10%)
@@ -338,52 +344,70 @@
 
         var flying = true; // Variable to control fly animation
 
-function fly(startXPercentage, endXPercentage, startYPercentage, duration, loop) {
-    var startX = window.innerWidth * startXPercentage;
-    var endX = window.innerWidth * endXPercentage;
-    var startY = window.innerHeight * startYPercentage;
-    var direction = 1; 
+        function fly(startXPercentage, endXPercentage, startYPercentage, duration, loop) {
+            var startX = window.innerWidth * startXPercentage;
+            var endX = window.innerWidth * endXPercentage;
+            var startY = window.innerHeight * startYPercentage;
+            var direction = 1;
 
-    function animate() {
-        if (!flying) return; // Exit animation if flying is false
+            function animate() {
+                if (!flying) return; // Exit animation if flying is false
 
-        var elapsedTime = Date.now() - startTime;
-        var progress = elapsedTime / duration;
+                var elapsedTime = Date.now() - startTime;
+                var progress = elapsedTime / duration;
 
-        var newPositionX = (endX - startX) * progress * direction + startX;
-        var newPositionY = (Math.sin(elapsedTime / 100) * 10) + startY;
+                var newPositionX = (endX - startX) * progress * direction + startX;
+                var newPositionY = (Math.sin(elapsedTime / 100) * 10) + startY;
 
-        movingText.style.left = newPositionX + 'px';
-        movingText.style.top = newPositionY + 'px';
+                movingText.style.left = newPositionX + 'px';
+                movingText.style.top = newPositionY + 'px';
 
-        if (progress < 1 || loop) {
-            requestAnimationFrame(animate);
-        }
-        
-        if (progress > 1) {
-            progress = 1;
+                if (progress < 1 || loop) {
+                    requestAnimationFrame(animate);
+                }
+
+                if (progress > 1) {
+                    progress = 1;
+                    startTime = Date.now();
+                    var temp = startX;
+                    startX = endX;
+                    endX = temp;
+                }
+            }
             startTime = Date.now();
-            var temp = startX;
-            startX = endX;
-            endX = temp;
-        }            
-    }
-    startTime = Date.now();
-    animate();
-}
+            animate();
+        }
 
 
         animateText("fly", shortwait, true);
 
-function erase(){
-    if (eraseEnabled){
-    var elementsToRemove = document.querySelectorAll('body > *:not(#leftLines):not(.home):not(#pasta)');
-    
-    elementsToRemove.forEach(function(element) {
-        element.parentNode.removeChild(element);
-    });
-}
-    }
+        function erase() {
+            if (eraseEnabled) {
+                removeSpawnedBread();
+                var elementsToRemove = document.querySelectorAll('body > *:not(#leftLines):not(.home):not(#pasta):not(.home-bread)');
+                elementsToRemove.forEach(function (element) {
+                    element.parentNode.removeChild(element);
+                });
+
+                var removeBread = document.querySelectorAll('.home-bread');
+
+                removeBread.forEach(function (element) {
+                    element.style.opacity = "0";
+                });
+                var newTextDiv = document.createElement("div");
+                newTextDiv.style.position = "fixed";
+                newTextDiv.style.top = "50%";
+                newTextDiv.style.left = "50%";
+                newTextDiv.style.transform = "translate(-50%, -50%)";
+                newTextDiv.style.textAlign = "center";
+                newTextDiv.style.color = "#242e2c";
+                newTextDiv.style.zIndex = "9999";
+                newTextDiv.textContent = "但搬走的那一天，墙不寂寞了，张口，回音又落在它身上了。";
+
+                // Append the new text div to the body
+                document.body.appendChild(newTextDiv);
+            }
+        }
 
     </script>
 </body>
